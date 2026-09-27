@@ -360,11 +360,11 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
             
             "th{"
             "border:1px solid #999;"
-            "padding:6px;"
-            "background:#0059b3;"
-            "color:#000000;"
-            "font-weight:bold;"
-            "text-align:left;"
+            "padding:11px 13px;text-align:{align};"
+            "background:linear-gradient(135deg,#002e6e 0%,#0059b3 100%);"
+            "color:#ffffff;"
+            "font-weight:700;border-bottom:2px solid #f7941d;"
+            "white-space:nowrap;"
             "}"
                         
             "td{"
