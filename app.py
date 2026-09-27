@@ -351,7 +351,6 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
         "h1{color:#333;}"
         "h2{color:#0056b3;border-bottom:1px solid #ccc;}"
 
-        /* TABLE */
         "table{"
         "border-collapse:collapse;"
         "width:100%;"
@@ -376,13 +375,12 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
         "padding:6px;"
         "color:#222;"
         "}"
-        
+
         "img{max-width:100%;margin:8px 0;}"
-        
-        /* SECTION PAGE BREAK */
+
         ".section{page-break-before:always;}"
         ".section:first-of-type{page-break-before:auto;}"
-        
+
         "</style></head><body>",
 
         f"<h1>{subject.upper()}</h1>",
@@ -425,7 +423,6 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
             f"PDF generation failed ({exc}); use the Markdown download instead."
         )
         return None
-
  
 
 
