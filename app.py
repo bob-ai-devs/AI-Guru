@@ -795,9 +795,16 @@ def text_to_html(text: str) -> str:
             #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
             # )
 
+            # parts.append(
+            #     f'<th style="padding:11px 13px;text-align:{align};'
+            #     "background:#0059b3;"
+            #     "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
+            #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
+            # )
+
             parts.append(
                 f'<th style="padding:11px 13px;text-align:{align};'
-                "background:#0059b3;"
+                "background:linear-gradient(135deg,#d9eaf7 0%,#9fc5e8 100%);"
                 "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
                 f'white-space:nowrap;">{inline_markdown(cell)}</th>'
             )
