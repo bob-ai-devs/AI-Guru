@@ -24,9 +24,12 @@ Key changes vs. the original notebook:
   * `eval()` on data scraped from Bing was replaced with a safe regex
     extraction — `eval()` on untrusted web content is a code-execution
     hole and should never be used.
-  * PDF generation is a single merged document instead of per-chapter
-    files stitched together, and it degrades gracefully (offers a
-    Markdown/HTML download instead) if wkhtmltopdf isn't installed.
+  * PDF generation is a single merged document rendered with the
+    pure-Python `xhtml2pdf` (no external binary / apt dependency at all —
+    the old `pdfkit` + `wkhtmltopdf` approach breaks on Streamlit Cloud's
+    current base image since Debian dropped the `wkhtmltopdf` package),
+    and it degrades gracefully to a Markdown/HTML download if the PDF
+    library isn't installed for some reason.
   * Added: progress bar, live status log, adjustable model/section count,
     retry/backoff on API calls, a "start over" control, and a Markdown
     export that has no external binary dependency at all.
@@ -220,26 +223,33 @@ def fetch_image_urls(search_query: str, num_images: int = 6) -> list[str]:
 
 
 # ----------------------------------------------------------------------------
-# PDF export (optional — degrades gracefully if wkhtmltopdf isn't present)
+# PDF export (pure Python — no system binary needed, unlike wkhtmltopdf)
 # ----------------------------------------------------------------------------
+# Streamlit Community Cloud's base image moved to Debian "trixie", which
+# dropped the `wkhtmltopdf` apt package entirely (it's an unmaintained,
+# ancient WebKit fork that Debian no longer ships) — so the previous
+# pdfkit + packages.txt approach fails on deploy with
+# "Package wkhtmltopdf is not available". xhtml2pdf is a pure-Python
+# HTML->PDF renderer (built on reportlab) that needs nothing from apt at
+# all, so `packages.txt` can go away completely.
 
-def pdfkit_available() -> bool:
-    try:
-        import pdfkit  # noqa: F401
-        import shutil as _shutil
-        return _shutil.which("wkhtmltopdf") is not None
-    except ImportError:
-        return False
+try:
+    from xhtml2pdf import pisa
+except ImportError:  # pragma: no cover
+    pisa = None
+
+
+def pdf_available() -> bool:
+    return pisa is not None
 
 
 def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> bytes | None:
-    if not pdfkit_available():
+    if not pdf_available():
         return None
-    import pdfkit
 
     parts = [
         "<html><head><meta charset='utf-8'>"
-        "<style>body{font-family:Verdana,sans-serif;margin:40px;}"
+        "<style>body{font-family:Helvetica,sans-serif;margin:40px;}"
         "h1{color:#333;} h2{color:#0056b3;border-bottom:1px solid #ccc;}"
         "table{border-collapse:collapse;width:100%;} "
         "td,th{border:1px solid #999;padding:6px;} "
@@ -259,10 +269,13 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
     )
     html = "\n".join(parts)
 
-    options = {"page-size": "A4", "encoding": "UTF-8", "no-outline": None, "quiet": ""}
+    buffer = io.BytesIO()
     try:
-        pdf_bytes = pdfkit.from_string(html, False, options=options)
-        return pdf_bytes
+        result = pisa.CreatePDF(html, dest=buffer)
+        if result.err:
+            st.warning("PDF generation reported errors; use the Markdown download instead.")
+            return None
+        return buffer.getvalue()
     except Exception as exc:  # noqa: BLE001
         st.warning(f"PDF generation failed ({exc}); use the Markdown download instead.")
         return None
@@ -1198,7 +1211,7 @@ if st.session_state.sections:
         use_container_width=True,
     )
 
-    if pdfkit_available():
+    if pdf_available():
         if st.session_state.pdf_bytes is None:
             with st.spinner("Building PDF…"):
                 st.session_state.pdf_bytes = build_pdf(subject, sections, image_urls)
@@ -1212,8 +1225,8 @@ if st.session_state.sections:
             )
     else:
         col2.caption(
-            "PDF export needs `wkhtmltopdf` installed on the server "
-            "(see `packages.txt`). Use the Markdown download for now."
+            "PDF export needs the `xhtml2pdf` package. Check requirements.txt. "
+            "Use the Markdown download for now."
         )
 
     zip_buffer = io.BytesIO()
