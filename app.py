@@ -185,14 +185,14 @@ def chapter_prompt(view: str, chapter_num: int, index_text: str, is_overview: bo
             f"Please explain chapter number {chapter_num} for {view} in a format "
             "with the help of examples, kindly use tables if applicable so that "
             "the end user can understand the information easily. Please use the "
-            f"following index for tutorial generation: {index_text}"
+            f"following index for tutorial generation: {index_text}. No additional Commentary or information needed."
         )
     return (
         f"Please explain chapter number {chapter_num} in depth (detailed) for "
         f"{view} in an application-oriented (applied) way with the help of "
         "examples and tables (if any) so that the Subject Matter Expert can "
         "get in-depth insights of the chapter. Please use the following index "
-        f"for tutorial generation: {index_text}"
+        f"for tutorial generation: {index_text}. No additional Commentary or information needed."
     )
 
 
