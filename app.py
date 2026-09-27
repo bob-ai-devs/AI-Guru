@@ -364,7 +364,7 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
             "background:#d9eaf7;"
             "color:#000000;"
             "font-weight:bold;"
-            f"text-align:{align};"
+            "text-align:center;"
             "}"
 
             "td{"
