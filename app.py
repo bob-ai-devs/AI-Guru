@@ -62,6 +62,53 @@ st.set_page_config(
     layout="wide",
 )
 
+# ==============================================================================
+# BANK OF BARODA BRAND PALETTE
+# ==============================================================================
+BOB_ORANGE = "#F7941D"       # primary — "Baroda Sun"
+BOB_ORANGE_DEEP = "#E8531B"  # sun-ray gradient end
+BOB_MAROON = "#8E1B3A"       # sun-ray gradient end / accents
+BOB_NAVY = "#12284C"         # wordmark / headings
+BOB_NAVY_LIGHT = "#1E3E73"
+BOB_CREAM = "#FFF8F1"        # page background
+BOB_GREY = "#5B6675"
+
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-color: {BOB_CREAM};
+    }}
+    #bob-banner {{
+        background: radial-gradient(circle at 15% 50%, {BOB_ORANGE} 0%, {BOB_ORANGE_DEEP} 45%, {BOB_MAROON} 100%);
+        padding: 22px 30px;
+        border-radius: 12px;
+        margin-bottom: 22px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }}
+    #bob-banner h1 {{
+        color: white;
+        margin: 0;
+        font-size: 1.9em;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+    }}
+    #bob-banner p {{
+        color: #FFEFE0;
+        margin: 4px 0 0 0;
+        font-size: 0.95em;
+    }}
+    h1, h2, h3 {{ color: {BOB_NAVY}; }}
+    /* BOB AI Portal Card Border */
+    div[data-testid="stVerticalBlockBorderWrapper"] {{
+        border: 1.5px solid {BOB_ORANGE_DEEP} !important;
+        border-radius: 14px !important;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 BING_HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -1057,12 +1104,27 @@ with st.sidebar:
             st.session_state[key] = value
         st.rerun()
 
-# ----------------------------------------------------------------------------
-# Header
-# ----------------------------------------------------------------------------
+# # ----------------------------------------------------------------------------
+# # Header
+# # ----------------------------------------------------------------------------
 
-st.title("📚 BOB AI Guru")
-st.caption("AI Tutor — generates a structured tutorial book on any subject you give it.")
+# st.title("📚 BOB AI Guru")
+# st.caption("AI Tutor — generates a structured tutorial book on any subject you give it.")
+
+# --------------------------------------------------------
+# Header
+# --------------------------------------------------------
+
+st.markdown(
+    """
+    <div id="bob-banner">
+        <h1>📚 BOB AI Guru</h1>
+        <p>AI Tutor — generates a structured tutorial book on any subject you give it</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 # ----------------------------------------------------------------------------
 # Input form (shown until a tutorial has been generated)
