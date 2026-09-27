@@ -1,4 +1,4 @@
 streamlit>=1.38
 google-genai>=0.3
 requests>=2.31
-pdfkit>=1.0
+xhtml2pdf>=0.2.16
