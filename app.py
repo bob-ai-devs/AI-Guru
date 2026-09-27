@@ -349,37 +349,37 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
             "body{font-family:Helvetica,sans-serif;margin:40px;}"
             "h1{color:#333;}"
             "h2{color:#0056b3;border-bottom:1px solid #ccc;}"
-            
+
             "table{"
             "border-collapse:collapse;"
             "width:100%;"
             "margin:10px 0;"
             "}"
-            
+
             "thead{display:table-header-group;}"
-            
+
             "th{"
             "border:1px solid #999;"
-            "padding:11px 13px;text-align:{align};"
-            "background:linear-gradient(135deg,#002e6e 0%,#0059b3 100%);"
-            "color:#ffffff;"
-            "font-weight:700;border-bottom:2px solid #f7941d;"
-            "white-space:nowrap;"
+            "padding:6px;"
+            "background:#0059b3;"
+            "color:#000000;"
+            "font-weight:bold;"
+            "text-align:left;"
             "}"
-                        
+
             "td{"
             "border:1px solid #999;"
             "padding:6px;"
             "color:#222222;"
             "}"
-            
+
             "tr{page-break-inside:avoid;}"
-            
+
             "img{max-width:100%;margin:8px 0;}"
-            
+
             ".section{page-break-before:always;}"
             ".section:first-of-type{page-break-before:auto;}"
-            
+
             "</style></head><body>",
 
         f"<h1>{subject.upper()}</h1>",
@@ -788,10 +788,17 @@ def text_to_html(text: str) -> str:
 
         for i, cell in enumerate(header):
             align = alignments[i] if i < len(alignments) else "left"
+            # parts.append(
+            #     f'<th style="padding:11px 13px;text-align:{align};'
+            #     "background:linear-gradient(135deg,#002e6e 0%,#0059b3 100%);"
+            #     "color:#ffffff;font-weight:700;border-bottom:2px solid #f7941d;"
+            #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
+            # )
+
             parts.append(
                 f'<th style="padding:11px 13px;text-align:{align};'
-                "background:linear-gradient(135deg,#002e6e 0%,#0059b3 100%);"
-                "color:#ffffff;font-weight:700;border-bottom:2px solid #f7941d;"
+                "background:#0059b3;"
+                "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
                 f'white-space:nowrap;">{inline_markdown(cell)}</th>'
             )
 
