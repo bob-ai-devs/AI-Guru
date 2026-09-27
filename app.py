@@ -359,9 +359,9 @@ def build_pdf(subject: str, sections: list[dict], image_urls: list[str]) -> byte
             "thead{display:table-header-group;}"
 
             "th{"
-            "border:1px solid #999;"
+            "border:1px solid #f7941d;"
             "padding:6px;"
-            "background:#0059b3;"
+            "background:#d9eaf7;"
             "color:#000000;"
             "font-weight:bold;"
             "text-align:left;"
@@ -795,19 +795,19 @@ def text_to_html(text: str) -> str:
             #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
             # )
 
-            # parts.append(
-            #     f'<th style="padding:11px 13px;text-align:{align};'
-            #     "background:#0059b3;"
-            #     "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
-            #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
-            # )
-
             parts.append(
                 f'<th style="padding:11px 13px;text-align:{align};'
-                "background:linear-gradient(135deg,#d9eaf7 0%,#9fc5e8 100%);"
+                "background:#d9eaf7;"
                 "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
                 f'white-space:nowrap;">{inline_markdown(cell)}</th>'
             )
+
+            # parts.append(
+            #     f'<th style="padding:11px 13px;text-align:{align};'
+            #     "background:linear-gradient(135deg,#d9eaf7 0%,#9fc5e8 100%);"
+            #     "color:#000000;font-weight:700;border-bottom:2px solid #f7941d;"
+            #     f'white-space:nowrap;">{inline_markdown(cell)}</th>'
+            # )
 
         parts.append("</tr></thead><tbody>")
 
